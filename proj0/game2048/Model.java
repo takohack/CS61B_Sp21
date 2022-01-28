@@ -114,6 +114,7 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+
         checkGameOver();
         if (changed) {
             setChanged();
@@ -138,7 +139,15 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean is_empty = false;
+        for(int i = 0;i<4;i++){
+            for(int j = 0;j<4;j++){
+                Tile tile = b.tile(i,j);
+                if(tile == null )
+                    is_empty = true;
+            }
+        }
+        return is_empty;
     }
 
     /**
@@ -148,7 +157,18 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean max_eual = false;
+        for(int i = 0;i<4;i++){
+            for(int j = 0;j<4;j++){
+                Tile tile = b.tile(i,j);
+                if(tile != null ){
+                    if(tile.value() == MAX_PIECE){
+                        max_eual = true;
+                    }
+                }
+            }
+        }
+        return max_eual;
     }
 
     /**
@@ -157,9 +177,83 @@ public class Model extends Observable {
      * 1. There is at least one empty space on the board.
      * 2. There are two adjacent tiles with the same value.
      */
+    public static boolean is_valid_pos(int row,int col){
+        boolean is_valid = true;
+        if(row <0 || row >=4){
+             is_valid = false;
+        }
+        if(col <0 || col >= 4){
+            is_valid = false;
+        }
+        return is_valid;
+    }
+    public static int[] four_neighbor(Board b,int row,int col){
+        int[] pos_value = new int[4];
+
+        //top
+        int t_row = row + 1;
+        int t_col = col;
+        if(is_valid_pos(t_row,t_col)){
+            Tile tile = b.tile(t_col,t_row);
+            if(tile != null){
+                pos_value[0] = tile.value();
+            }
+        }
+
+        //left
+        int l_row = row;
+        int l_col = col-1;
+        if(is_valid_pos(l_row,l_col)){
+            Tile tile = b.tile(l_col,l_row);
+            if(tile != null){
+                pos_value[1] = tile.value();
+            }
+        }
+
+        //right
+        int r_row = row;
+        int r_col = col+1;
+        if(is_valid_pos(r_row,r_col)){
+            Tile tile = b.tile(r_col,r_row);
+            if(tile != null){
+                pos_value[2] = tile.value();
+            }
+        }
+
+        //down
+        int d_row = row - 1;
+        int d_col = col;
+        if(is_valid_pos(d_row,d_col)){
+            Tile tile = b.tile(d_col,d_row);
+            if(tile != null){
+                pos_value[3] = tile.value();
+            }
+        }
+    return pos_value;
+    }
+
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean valid_move = false;
+        //case 1:
+        valid_move = emptySpaceExists(b);
+        if(valid_move == true){
+            return valid_move;
+        }
+        //vase 2:
+        for(int i = 0;i<4;i++){
+            for(int j = 0;j<4;j++){
+                Tile tile = b.tile(i,j);
+                int value = tile.value();
+                int[] neignber = four_neighbor(b,i,j);
+                for(int u = 0;u<neignber.length;u++){
+                    if(value == neignber[u]){
+                        return true;
+                    }
+                }
+            }
+        }
+        return valid_move;
     }
 
 
