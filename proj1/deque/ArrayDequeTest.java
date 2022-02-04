@@ -31,7 +31,7 @@ public class ArrayDequeTest {
         lld1.addLast("back");
         assertEquals(3, lld1.size());
         assertEquals("back",lld1.get(2));
-        assertEquals("middle",lld1.get(1));
+        assertEquals("front",lld1.get(0));
 //        lld1.removeFirst();
 
         System.out.println("Printing out deque: ");
@@ -52,6 +52,7 @@ public class ArrayDequeTest {
         lld1.addFirst(10);
         // should not be empty
         assertFalse("lld1 should contain 1 item", lld1.isEmpty());
+        System.out.println(lld1.get(0));
 
         lld1.removeFirst();
         // should be empty

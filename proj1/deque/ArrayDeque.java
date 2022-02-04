@@ -87,17 +87,22 @@ public class ArrayDeque<Item> {
     }
 
     public Item get(int index){
-        Item item = null;
-        int current_first = nextFirst;
-        while(index >=0){
-            if(addOne(current_first) == nextLast){
-                return null;
-            }
-            current_first = addOne(current_first);
-            item = items[current_first];
-            index--;
+//        Item item = null;
+//        int current_first = nextFirst;
+//        while(index >=0){
+//            if(addOne(current_first) == nextLast){
+//                return null;
+//            }
+//            current_first = addOne(current_first);
+//            item = items[current_first];
+//            index--;
+//        }
+//        return item;
+        if(index >= size){
+            return null;
         }
-        return item;
+        int start = addOne(nextFirst);
+        return items[(start + index) % items.length];
     }
 
 }
