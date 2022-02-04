@@ -33,6 +33,7 @@ public class ArrayDequeTest {
         assertEquals("back",lld1.get(2));
         assertEquals("front",lld1.get(0));
 //        lld1.removeFirst();
+        lld1.removeFirst();
 
         System.out.println("Printing out deque: ");
         lld1.printDeque();

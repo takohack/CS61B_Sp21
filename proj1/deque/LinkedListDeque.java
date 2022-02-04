@@ -1,5 +1,7 @@
 package deque;
 
+import org.w3c.dom.Node;
+
 public class LinkedListDeque<NodeType> {
     private class StuffNode{
         public NodeType item;
@@ -64,7 +66,7 @@ public class LinkedListDeque<NodeType> {
         System.out.println();
     }
     public NodeType removeFirst(){
-        if(sentinel.next == sentinel){
+        if(isEmpty()){
             return null;
         }
         size--;
@@ -74,7 +76,7 @@ public class LinkedListDeque<NodeType> {
         return node.item;
     }
     public NodeType removeLast(){
-        if(sentinel.next == sentinel){
+        if(isEmpty()){
             return null;
         }
         size--;
@@ -84,15 +86,30 @@ public class LinkedListDeque<NodeType> {
         return node.item;
     }
     public NodeType get(int index){
+        if(index >= size){
+            return null;
+        }
         StuffNode item = sentinel;
         while(index>=0){
-            if(item.next == sentinel){
-                return null;
-            }
             item = item.next;
             index --;
         }
         return item.item;
     }
+
+    private NodeType get_helper(StuffNode node,int index){
+        if(index ==0){
+            return node.item;
+        }
+        return get_helper(node.next,index-1);
+    }
+
+    public NodeType getRecursive(int index){
+        if(index >= size){
+            return null;
+        }
+        return get_helper(sentinel.next,index);
+    }
+
 
 }
