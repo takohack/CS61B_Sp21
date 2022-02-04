@@ -83,5 +83,16 @@ public class LinkedListDeque<NodeType> {
         node.pre.next = sentinel;
         return node.item;
     }
+    public NodeType get(int index){
+        StuffNode item = sentinel;
+        while(index>=0){
+            if(item.next == sentinel){
+                return null;
+            }
+            item = item.next;
+            index --;
+        }
+        return item.item;
+    }
 
 }
