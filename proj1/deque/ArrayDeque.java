@@ -14,7 +14,12 @@ public class ArrayDeque<Item> {
     }
     private void resize(int capacity){
         Item[] a = (Item[]) new Object[capacity];
-        System.arraycopy(items,0,a,0,size);
+        int i = 0;
+        for(int j=0;j<size;j++){
+            a[i++] = items[(nextFirst + 1 + j)%items.length];
+        }
+        nextFirst = a.length - 1;
+        nextLast = i;
         items = a;
     }
     private int minusOne(int index){
@@ -68,6 +73,10 @@ public class ArrayDeque<Item> {
         if(isEmpty()){
             return null;
         }
+        double usage_factor = size/items.length;
+        if(usage_factor >=0.25 && items.length >=16){
+            resize(items.length/2);
+        }
         size--;
         Item item = items[addOne(nextFirst)];
         nextFirst = addOne(nextFirst);
@@ -78,6 +87,10 @@ public class ArrayDeque<Item> {
     public Item removeLast(){
         if(isEmpty()){
             return null;
+        }
+        double usage_factor = (double)size/items.length;
+        if(usage_factor <=0.25 && items.length >=16){
+            resize(items.length/2);
         }
         size--;
         Item item = items[minusOne(nextLast)];

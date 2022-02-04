@@ -140,4 +140,15 @@ public class ArrayDequeTest {
 
 
     }
+    @Test
+    public void shrinkTest(){
+
+        ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+        for(int i = 0;i<17;i++){
+            lld1.addLast(1);
+        }
+        for(int i=0;i<16;i++){
+            lld1.removeLast();
+        }
+    }
 }
