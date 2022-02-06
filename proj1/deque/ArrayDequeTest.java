@@ -1,6 +1,9 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
@@ -33,10 +36,15 @@ public class ArrayDequeTest {
         assertEquals("back",lld1.get(2));
         assertEquals("front",lld1.get(0));
 //        lld1.removeFirst();
-        lld1.removeFirst();
+//        lld1.removeFirst();
+//
+//        System.out.println("Printing out deque: ");
+//        lld1.printDeque();
 
-        System.out.println("Printing out deque: ");
-        lld1.printDeque();
+        Iterator<String> link_iter = lld1.iterator();
+        while(link_iter.hasNext()){
+            System.out.println(link_iter.next());
+        }
 
     }
 

@@ -1,6 +1,9 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 
@@ -27,20 +30,29 @@ public class LinkedListDequeTest {
         assertEquals(1, lld1.size());
         assertFalse("lld1 should now contain 1 item", lld1.isEmpty());
 
-		lld1.addLast("middle");
+        lld1.addFirst("front");
 		assertEquals(2, lld1.size());
 
 		lld1.addLast("back");
 		assertEquals(3, lld1.size());
 
         assertEquals("back",lld1.getRecursive(2));
-        assertEquals("middle",lld1.getRecursive(1));
+        assertEquals("front",lld1.getRecursive(1));
 
-        lld1.removeFirst();
+//        lld1.removeFirst();
+//
+//		System.out.println("Printing out deque: ");
+//		lld1.printDeque();
 
-		System.out.println("Printing out deque: ");
-		lld1.printDeque();
-
+        Iterator<String> link_iter = lld1.iterator();
+        while(link_iter.hasNext()){
+            System.out.println(link_iter.next());
+        }
+        LinkedListDeque<String> lld2 = new LinkedListDeque<String>();
+        lld2.addFirst("front");
+        lld2.addFirst("front");
+        lld2.addLast("back");
+        assertTrue(lld1.equals(lld2));
     }
 
     @Test
@@ -142,4 +154,5 @@ public class LinkedListDequeTest {
 
 
     }
+
 }

@@ -2,6 +2,8 @@ package deque;
 
 import org.w3c.dom.Node;
 
+import java.util.Iterator;
+
 public class LinkedListDeque<T> implements Deque<T> {
     private class StuffNode{
         public T item;
@@ -111,6 +113,49 @@ public class LinkedListDeque<T> implements Deque<T> {
             return null;
         }
         return get_helper(sentinel.next,index);
+    }
+    private class linkDequeIterator implements Iterator<T>{
+        private StuffNode node;
+
+        public linkDequeIterator(){
+            node = sentinel;
+        }
+        @Override
+        public boolean hasNext() {
+            return node.next != sentinel;
+        }
+
+        @Override
+        public T next() {
+            node = node.next;
+            T returnItem = node.item;
+            return returnItem;
+        }
+    }
+    public Iterator<T> iterator(){
+        return new linkDequeIterator();
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        } else if (!(o instanceof LinkedListDeque)) {
+            return false;
+        } else if (o == this) {
+            return true;
+        }
+        LinkedListDeque<T> otherObject = (LinkedListDeque<T>) o;
+        if(otherObject.size() != this.size()){
+            return false;
+        }
+        Iterator<T> other_iter = otherObject.iterator();
+        Iterator<T> my_iter = this.iterator();
+        while(my_iter.hasNext()){
+            if(my_iter.next() != other_iter.next()){
+                return false;
+            }
+        }
+        return true;
     }
 
 
