@@ -2,13 +2,13 @@ package deque;
 
 import org.w3c.dom.Node;
 
-public class LinkedListDeque<NodeType> {
+public class LinkedListDeque<T> implements Deque<T> {
     private class StuffNode{
-        public NodeType item;
+        public T item;
         public StuffNode pre;
         public StuffNode next;
 
-        public StuffNode(NodeType i,StuffNode pre,StuffNode next){
+        public StuffNode(T i,StuffNode pre,StuffNode next){
             item = i;
             this.pre = pre;
             this.next = next;
@@ -25,8 +25,8 @@ public class LinkedListDeque<NodeType> {
         size = 0;
     }
 
-
-    public void addFirst(NodeType x){
+    @Override
+    public void addFirst(T x){
         size ++;
         sentinel.next = new StuffNode(x,sentinel,sentinel.next);
         if(sentinel.pre == sentinel)
@@ -36,7 +36,8 @@ public class LinkedListDeque<NodeType> {
         sentinel.next.next.pre = sentinel.next;
 
     }
-    public void addLast(NodeType x){
+    @Override
+    public void addLast(T x){
         size ++;
         StuffNode pre_temp = sentinel.pre;
         sentinel.pre = new StuffNode(x,pre_temp,sentinel);
@@ -46,14 +47,12 @@ public class LinkedListDeque<NodeType> {
         sentinel.pre.pre.next = sentinel.pre;
     }
 
-    public boolean isEmpty(){
-        return size ==0;
-    }
-
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void printDeque(){
         StuffNode node = sentinel.next;
         if(node == sentinel){
@@ -65,7 +64,8 @@ public class LinkedListDeque<NodeType> {
         }
         System.out.println();
     }
-    public NodeType removeFirst(){
+    @Override
+    public T removeFirst(){
         if(isEmpty()){
             return null;
         }
@@ -75,7 +75,8 @@ public class LinkedListDeque<NodeType> {
         node.next.pre = sentinel;
         return node.item;
     }
-    public NodeType removeLast(){
+    @Override
+    public T removeLast(){
         if(isEmpty()){
             return null;
         }
@@ -85,7 +86,8 @@ public class LinkedListDeque<NodeType> {
         node.pre.next = sentinel;
         return node.item;
     }
-    public NodeType get(int index){
+    @Override
+    public T get(int index){
         if(index >= size){
             return null;
         }
@@ -97,14 +99,14 @@ public class LinkedListDeque<NodeType> {
         return item.item;
     }
 
-    private NodeType get_helper(StuffNode node,int index){
+    private T get_helper(StuffNode node,int index){
         if(index ==0){
             return node.item;
         }
         return get_helper(node.next,index-1);
     }
 
-    public NodeType getRecursive(int index){
+    public T getRecursive(int index){
         if(index >= size){
             return null;
         }

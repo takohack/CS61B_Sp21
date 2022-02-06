@@ -1,19 +1,19 @@
 package deque;
 
-public class ArrayDeque<Item> {
-    private Item[] items;
+public class ArrayDeque<T> implements Deque<T>{
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
 
     public ArrayDeque(){
-        items = (Item[]) new Object[8];
+        items = (T[]) new Object[8];
         nextFirst = 4;
         nextLast = 5;
         size = 0;
     }
     private void resize(int capacity){
-        Item[] a = (Item[]) new Object[capacity];
+        T[] a = (T[]) new Object[capacity];
         int i = 0;
         for(int j=0;j<size;j++){
             a[i++] = items[(nextFirst + 1 + j)%items.length];
@@ -36,8 +36,8 @@ public class ArrayDeque<Item> {
         index ++;
         return index;
     }
-
-    public void addFirst(Item item){
+    @Override
+    public void addFirst(T item){
         if(size == items.length){
             resize(size * 2);
         }
@@ -45,7 +45,8 @@ public class ArrayDeque<Item> {
         nextFirst = minusOne(nextFirst);
         size ++;
     }
-    public void addLast(Item item){
+    @Override
+    public void addLast(T item){
         if(size == items.length){
             resize(size * 2);
         }
@@ -53,12 +54,11 @@ public class ArrayDeque<Item> {
         nextLast = addOne(nextLast);
         size++;
     }
-    public boolean isEmpty(){
-        return size == 0;
-    }
+    @Override
     public int size(){
         return size;
     }
+    @Override
     public void printDeque(){
         if(isEmpty()){
             return;
@@ -69,7 +69,8 @@ public class ArrayDeque<Item> {
         }
         System.out.println();
     }
-    public Item removeFirst(){
+    @Override
+    public T removeFirst(){
         if(isEmpty()){
             return null;
         }
@@ -78,13 +79,13 @@ public class ArrayDeque<Item> {
             resize(items.length/2);
         }
         size--;
-        Item item = items[addOne(nextFirst)];
+        T item = items[addOne(nextFirst)];
         nextFirst = addOne(nextFirst);
         items[nextFirst] = null;
         return item;
     }
-
-    public Item removeLast(){
+    @Override
+    public T removeLast(){
         if(isEmpty()){
             return null;
         }
@@ -93,14 +94,14 @@ public class ArrayDeque<Item> {
             resize(items.length/2);
         }
         size--;
-        Item item = items[minusOne(nextLast)];
+        T item = items[minusOne(nextLast)];
         nextLast = minusOne(nextLast);
         items[nextLast] = null;
         return item;
     }
-
-    public Item get(int index){
-//        Item item = null;
+    @Override
+    public T get(int index){
+//        T item = null;
 //        int current_first = nextFirst;
 //        while(index >=0){
 //            if(addOne(current_first) == nextLast){
