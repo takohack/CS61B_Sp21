@@ -1,94 +1,121 @@
 package deque;
 
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Objects;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
-    private T[] items = (T[]) new Object[8];
+    private T[] array;
     private int size;
-    private int nextFirst;
-    private int nextLast;
+    private int length;
+    private int front;
+    private int last;
 
     public ArrayDeque() {
+        array = (T[]) new Object[8];
         size = 0;
-        nextFirst = 3;
-        nextLast = 4;
-    }
-
-    public void addFirst(T item) {
-        items[nextFirst] = item;
-        size += 1;
-        nextFirst -= 1;
-        if (nextFirst == -1) {
-            resize(size * 2);
-        }
-    }
-
-    public void addLast(T item) {
-        items[nextLast] = item;
-        size += 1;
-        nextLast += 1;
-        if (nextLast == items.length) {
-            resize(size * 2);
-        }
+        length = 8;
+        front = 4; //当前有元素的头
+        last = 4;  //可以插入的最后一个位置
     }
 
     public int size() {
         return size;
     }
 
+    private int minusOne(int index) {
+        if (index == 0) {
+            return length - 1;
+        }
+        return index - 1;
+    }
+
+    private int plusOne(int index, int module) {
+        if (index == module - 1) {
+            return 0;
+        }
+        return index + 1;
+    }
+    private void resize(int cap){
+        T[] newArray = (T[]) new Object[cap];
+        int ptr1 = front;
+        int i = 0;
+        while (ptr1 != last){
+            newArray[i++] = array[ptr1];
+            ptr1 = plusOne(ptr1,length);
+        }
+        front = 0;
+        last = i;
+        array = newArray;
+        length = cap ;
+    }
+
+
+
+
+
+    public void addFirst(T item) {
+        if(size == length -1 ){
+            resize(length * 2);
+        }
+        front = minusOne(front);
+        array[front] = item;
+        size++;
+    }
+
+    public void addLast(T item) {
+        if(size == length -1){
+            resize(length * 2);
+        }
+        array[last] = item;
+        last = plusOne(last,length);
+        size++;
+    }
+
+
+
     public void printDeque() {
-        System.out.println(String.join(" ", Arrays.stream(items).filter(Objects::nonNull).map(T::toString).toArray(String[]::new)));
+        for(int i=0;i<size;i++){
+            System.out.println(get(i)+ " ");
+        }
+        System.out.println();
     }
 
     public T removeFirst() {
-        if (isEmpty()) {
+        if(length >=16 && length/size >=4){
+            resize(length/2);
+        }
+        if(size == 0){
             return null;
         }
-        nextFirst += 1;
-        T item = items[nextFirst];
-        items[nextFirst] = null;
-        size -= 1;
-        shrinkSize();
-        return item;
+        T ret = array[front];
+        front = plusOne(front,length);
+        size--;
+        return ret;
     }
 
     public T removeLast() {
-        if (isEmpty()) {
+        if (length >= 16 && length / size >= 4) {
+            resize(length/2);
+        }
+        if (size == 0) {
             return null;
         }
-        nextLast -= 1;
-        T item = items[nextLast];
-        items[nextLast] = null;
-        size -= 1;
-        shrinkSize();
-        return item;
+        last = minusOne(last);
+        size--;
+        return array[last];
     }
 
-    private void shrinkSize() {
-        if (isEmpty()) {
-            resize(8);
-        } else if (items.length / 4 > size && items.length >= 16) {
-            resize(items.length/2);
-        }
-    }
 
-    private void resize(int s) {
-        T[] newItems = (T[]) new Object[s];
-        int firstPos = Math.abs(s - size) / 2;
-        System.arraycopy(items, nextFirst + 1, newItems, firstPos, size);
-        items = newItems;
-        nextFirst = firstPos - 1;
-        nextLast = firstPos + size;
-    }
 
     public T get(int index) {
         if (index < 0 || index > size - 1) {
             return null;
         }
-        int itemIndex = nextFirst + 1 + index;
-        return items[itemIndex];
+        int ptr = (front + index)%length;
+//        int ptr = front;
+//        for(int i=0;i<index;i++){
+//            ptr = plusOne(ptr,length);
+//        }
+        return array[ptr];
     }
 
     public Iterator<T> iterator() {
@@ -104,18 +131,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return true;
         }
         if (!(o instanceof ArrayDeque)) {
-            if(o instanceof LinkedListDeque){
-                LinkedListDeque<T> ld = (LinkedListDeque<T>) o;
-                if(ld.size() != size){
-                    return false;
-                }
-                for(int i=0;i<size;i++){
-                    if (ld.get(i) != get(i)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
             return false;
         }
         ArrayDeque<?> ad = (ArrayDeque<?>) o;

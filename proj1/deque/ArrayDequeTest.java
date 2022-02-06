@@ -1,6 +1,7 @@
 package deque;
 
 import edu.princeton.cs.algs4.StdRandom;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -193,6 +194,13 @@ public class ArrayDequeTest {
                 arrayDeque.get(randIndex);
             }
 //            System.out.println(operationNumber);
+        }
+    }
+
+    public static void main(String[] args) {
+        ArrayDequeTest test = new ArrayDequeTest();
+        for(int i=0;i<1000;i++){
+            test.randomizedTest();
         }
     }
 }
