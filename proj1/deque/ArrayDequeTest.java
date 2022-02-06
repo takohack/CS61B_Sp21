@@ -192,6 +192,7 @@ public class ArrayDequeTest {
                 int randIndex = StdRandom.uniform(0, arrayDeque.size());
                 arrayDeque.get(randIndex);
             }
+//            System.out.println(operationNumber);
         }
     }
 }
