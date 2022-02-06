@@ -1,10 +1,10 @@
 package deque;
 
-import org.w3c.dom.Node;
+
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>,Iterable<T> {
     private class StuffNode{
         public T item;
         public StuffNode pre;
@@ -25,6 +25,12 @@ public class LinkedListDeque<T> implements Deque<T> {
         sentinel.next = sentinel;
         sentinel.pre = sentinel;
         size = 0;
+    }
+    public LinkedListDeque(T item){
+        sentinel = new StuffNode(null,null,null);
+        sentinel.next = new StuffNode(item,sentinel,sentinel.next);
+        sentinel.pre = sentinel.next;
+        size = 1;
     }
 
     @Override
