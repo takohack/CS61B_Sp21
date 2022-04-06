@@ -1,6 +1,5 @@
 package bstmap;
 
-import com.sun.tools.internal.ws.wsdl.document.soap.SOAPUse;
 
 import java.util.Iterator;
 import java.util.Set;
